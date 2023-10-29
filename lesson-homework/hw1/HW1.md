@@ -1,86 +1,215 @@
-# CS405 Homework #1
-
-*Course: Machine Learning(CS405) - Instructor: Qi Hao*
-
 ## Question 1
 
-Consider the polynomial function:
+Minimize
+$$
+E(\textbf{w}) = \frac{1}{2} \sum_{n=1}^{N} \Big( y(x_n, \textbf{w} )- t_n \Big)^2
+$$
+where 
 
-$$y(x,\mathbf{w})=w_{0}+w_{1}x+w_{2}x+...+w_Mx^M=\sum^M_{i=0}w_ix^i$$
 
-Calculate the coefficients $\mathbf{w}=\{w_i\}$ that minimize its sum-of-squares error function. Here a suffix $i$ denotes the index of a component, whereas $(x)^i$ denotes $x$ raised to the power of $i$.
+$$
+\begin{align*}
+\frac{\partial E(w)}{w_j} &= \sum_{i=1}^{N} \Big( y(x_i, \textbf{w} )- t_i \Big) \frac{\partial y(x_i, \textbf{w})}{\partial w_j} \\ 
+&= \sum_{i=1}^{N} \Big( y(x_i, \textbf{w} )- t_i \Big) x_i^j
+\end{align*}
+$$
+Next, set the derivatives equal to zero to find the coefficients that minimize the error:
+$$
+\sum_{i=1}^{N} \Big( y(x_i, \textbf{w} )- t_i \Big) x_i^j = 0
+$$
+Now, we can solve this equation for each coefficient $w_i$ separately. This will give a system of equations, one for each coefficient $w_i$.
 
 
 
 ## Question 2
 
-Suppose that we have three colored boxes $r(\mathrm{red})$, $b(\mathrm{blue})$, and $g(\mathrm{green})$. Box $r$ contains 3 apples, 4 oranges, and 3 limes, box $b$ contains 1 apple, 1 orange, and 0 limes, and box $g$ contains 3 apples, 3 oranges, and 4 limes. If a box is chosen at random with probabilities $p(r)=0.2, p(b) = 0.2, p(g) = 0.6$, and a piece of fruit is removed from the box (with equal probability of selecting any of the items in the box), then what is the probability of selecting an apple? If we observe that the selected fruit is in fact an orange, what is the probability that it came from the green box?
+$$
+\begin{align*}
+P(\text{apple}) &= P(\text{apple | r})P(\text{r}) + P(\text{apple | b})P(\text{b}) + P(\text{apple | g})P(\text{g}) \\
+&= \frac{3}{10} \times 0.2 + \frac{1}{2} \times 0.2 + \frac{3}{10} \times 0.6 \\ &= 0.34
+\end{align*}
+$$
+
+$$
+\begin{align*}
+P(\text{orange}) &= P(\text{orange | r})P(\text{r}) + P(\text{orange | b})P(\text{b}) + P(\text{orange | g})P(\text{g}) \\
+&= \frac{4}{10} \times 0.2 + \frac{1}{2} \times 0.2 + \frac{3}{10} \times 0.6 \\
+&= 0.36
+\end{align*}
+$$
+
+$$
+\begin{align*}
+P(\text{g | orange}) &= \frac{P(\text{orange | g})P(\text{g})}{P(\text{orange})} \\ 
+&= \frac{\frac{3}{10} \times 0.6}{0.36} \\ &= 0.5
+\end{align*}
+$$
 
 
 
 ## Question 3
 
-Given two statistically independent variables $x$ and $z$, show that the mean and variance of their sum satisfies
+$$
+\begin{align*}
+\mathbb{E}[X + Z] &= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}(x+z)f(x, z)dzdx \\
+&= \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}xf(x, z)dzdx + \int_{-\infty}^{\infty}\int_{-\infty}^{\infty}zf(x, z)dzdx \\ 
+&= \mathbb{E}[X] + \mathbb{E}[Z]
+\end{align*}
+$$
 
-$\mathbb{E}[x+z]=\mathbb{E}[x]+\mathbb{E}[z]$
 
-$\mathrm{var}[x+z] = \mathrm{var}[x]+\mathrm{var}[z]$
-
+$$
+\begin{align*}
+\mathrm{var}[X+Z] &= E\Big[(X+Z)-E[X+Z]\Big]^2 \\
+&= E\Big[ (X-E[X] + (Y-E[Y])) \Big]^2 \\
+&= \mathrm{var}[X] + \mathrm{var}[Y] + E[X-E[X]]E[Y-E[Y]] \\
+&= \mathrm{var}[X] + \mathrm{var}[Y]
+\end{align*}
+$$
 
 
 ## Question 4
 
-In probability theory and statistics, the Poisson distribution, is a discrete probability distribution that expresses the probability of a given number of events occurring in a fixed interval of time or space if these events occur with a known constant rate and independently of the time since the last event. If ${X}$ is Poisson distributed, i.e. $X\sim Possion(\lambda)$, its probability mass function takes the following form: 
+### (1)
 
-$P(X|\lambda)=\frac{\lambda^Xe^{-\lambda}}{X!}$
+$$
+\begin{align*}
+L(\lambda) &= \prod_{i=1}^n P(X=X_i|\lambda) \\
+&= \prod_{i=1}^n \frac{\lambda^{X_i}e^{-\lambda}}{X_i!}
+\end{align*}
+$$
 
-It can be shown that if $\mathbb{E}(X) = \lambda$. Assume now we have $n$ data points from $Possion(\lambda): \mathcal{D}=\{X_1, X_2,..., X_n\}$. Show that the sample mean $\widehat{\lambda}=\frac{1}{n}\sum^n_{i=1}X_i$ is the maximum likelihood estimate(MLE) of $\lambda$.
+$$
+\begin{align*}
+\ln L(\lambda) &= \ln \lambda \sum_{i=1}^n X_i - n\lambda - \sum_{i=1}^n \ln(X_i!)
+\end{align*}
+$$
 
-If $X$ is exponential distribution and its distribution density function is $f(x)=\frac{1}{\lambda}e^{-\frac{x}{\lambda}}$ for $x>0$ and $f(x)=0$ for $x\leq0$. Show that the sample mean $\widehat{\lambda}\frac{1}{n}\sum^n_{i=1}X_i$ is the maximum likelihood estimate(MLE) of $\lambda$.
+$$
+\begin{align*}
+\frac{d\ln L(\lambda)}{d\lambda} &= \frac{\sum_{i=1}^n X_i}{\lambda} - n  \\ &= 0
+\end{align*}
+$$
 
+It is solved that 
+$$
+\widehat{\lambda}=\frac{1}{n}\sum^n_{i=1}X_i
+$$
+
+### (2)
+
+$$
+\begin{align*}
+L(\lambda) &= \prod_{i=1}^n f(x=X_i|\lambda) \\
+&= \prod_{i=1}^n \frac{1}{\lambda}e^{-\frac{X_i}{\lambda}}
+\end{align*}
+$$
+
+$$
+\begin{align*}
+\ln L(\lambda) &= -\frac{\sum_{i=1}^{n}X_i}{\lambda} - n\ln\lambda
+\end{align*}
+$$
+
+$$
+\begin{align*}
+\frac{d\ln L(\lambda)}{d\lambda} &= \frac{\sum_{i=1}^n X_i}{\lambda^2} - \frac{n}{\lambda}  \\ &= 0
+\end{align*}
+$$
+
+It is solved that
+$$
+\widehat{\lambda}=\frac{1}{n}\sum^n_{i=1}X_i
+$$
 
 
 ## Question 5
 
-*(a)* Write down the probability of classifying correctly $p(correct)$ and the probability of misclassification $p(mistake)$ according to the following chart.
+#### (a)
 
-<img src="HW1.assets/mistake.jpg" alt="mistake" style="zoom:50%;" />
+$$
+\begin{align*}
+p(\text{mistake}) &= p(x \in \mathcal{R}_1, \mathcal{C}_2) + p(x \in \mathcal{R}_2, \mathcal{C}_1) \\
+&= \int_{\mathcal{R}_1} p(x, \mathcal{C}_2)dx + \int_{\mathcal{R}_2} p(x, \mathcal{C}_1)dx
 
-*(b)* For multiple target variables described by vector $\mathbf{t}$, the expected squared loss function is given by
+\end{align*}
+$$
 
-$\mathbb{E}[\mathit{L}\mathbf{(t, y(x))}]=\int\int \left \| \mathbf{y(x)-t} \right \|^2p(\mathbf{x, t})\mathrm{d}\mathbf{x}\mathrm{d}\mathbf{t}$
+$$
+p(\text{correct}) = 1 - p(\text{mistake})
+$$
 
-Show that the function $\mathbf{y(x)}$ for which this expected loss is minimized given by $\mathbf{y(x)}=\mathbb{E}\mathbf{_t[t|x]}$.
+#### (b)
 
-> #### Hints
->
-> For a single target variable $t$, the loss is given by
->
-> $\mathbb{E}[\mathit{L}]=\int\int\{y(\mathbf{x})-t\}^2p(\mathbf{x}, t)\mathrm{d}\mathbf{x}\mathrm{dt}$
->
-> The result is as follows
->
-> $y(\mathbf{x})=\frac{\int tp(\mathbf{x}, t)\mathrm{dt}}{p(\mathbf{x})}=\int tp(t|\mathbf{x})\mathrm{dt}=\mathbb{E}_t[t|\mathbf{x}]$
+$$
+\begin{align*}
+\frac{\delta \mathbb{E}[L(t, y(\mathbf{x}))]}{\delta y(\mathbf{x})} &= 2\int\{y(\mathbf{x}) - t \}p(\mathbf{x}, t) dt \\
+&= 0
+\end{align*}
+$$
 
+求解$y(\mathbf{x})$，使⽤概率的加和规则和乘积规则，我们得到
+$$
+\begin{align*}
+y(\mathbf{x}) &= \frac{\int tp(\mathbf{x}, t)dt}{p(\mathbf{x})} \\
+&= \int tp(t|\mathbf{x})dt \\
+&= \mathbb{E}_t[t|\mathbf{x}]
+\end{align*}
+$$
 
 
 ## Question 6
 
-*(a)* We defined the entropy based on a discrete random variable $\mathbf{X}$ as
+#### (a)
 
-$\mathbf{H[X]}=-\sum_{i}p(x_i)\mathrm{ln} p(x_i)$
+$$
+\begin{align*}
+\mathbf{H[X]} &= -\int p(x) \ln p(x) dx \\
+&= -\int p(x) \ln \Big(\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}} \Big) dx \\
+&= \int p(x) \Big( \ln \sqrt{2\pi}\sigma + {\frac{(x-\mu)^2}{2\sigma^2}} \Big) dx \\
+&=\ln \sqrt{2\pi} \sigma \int p(x) dx + \frac{1}{2\sigma^2} \int (x-\mu)^2 p(x) dx \\
+&= \ln \sqrt{2\pi} \sigma + \frac{1}{2}\\
+&= \frac{1}{2} \{\ln(2\pi\sigma^2) + 1\}
+\end{align*} 
+$$
 
-Now consider the case that $\mathbf{X}$ is a continuous random variable with the probability density function $p(x)$. The entropy is defined as
+#### (b)
 
-$\mathbf{H[X]}=-\int p(x)\mathrm{ln} p(x) dx$
+$$
+\begin{align*}
+I[\boldsymbol{y, x}] &\equiv \text{KL}(p(\boldsymbol{y,x})||p(\boldsymbol{y}) p(\boldsymbol{x})) \\
+&= -\int\int p(\boldsymbol{y, x}) \ln \Big( \frac{p(\boldsymbol{y}) p(\boldsymbol{x})}{p(\boldsymbol{y,x})} \Big) d\boldsymbol{x} d\boldsymbol{y}
+\end{align*}
+$$
 
-Assume that $\mathbf{X}$ follows Gaussian distribution with the mean $\mu$ and variance $\sigma$, i.e.
+$$
+\begin{align*}
+I[\boldsymbol{x,y}] &= -\int\int p(\boldsymbol{x, y}) \ln \Big( \frac{p(\boldsymbol{x}) p(\boldsymbol{y})}{p(\boldsymbol{x,y})} \Big) d\boldsymbol{x} d\boldsymbol{y} \\
+&= -\int\int p(\boldsymbol{x, y}) \ln \Big( \frac{p(\boldsymbol{x}) }{p(\boldsymbol{x|y})} \Big) d\boldsymbol{x} d\boldsymbol{y} \\
+&= -\int\int p(\boldsymbol{x, y}) \ln p(\boldsymbol{x}) d\boldsymbol{x} d\boldsymbol{y} +
+\int\int p(\boldsymbol{x, y}) \ln{p(\boldsymbol{x|y})}d\boldsymbol{x} d\boldsymbol{y} \\
+&= -\int\int p(\boldsymbol{x, y}) \ln p(\boldsymbol{x}) d\boldsymbol{x} d\boldsymbol{y} +
+\int\int p(\boldsymbol{x, y}) \ln{p(\boldsymbol{x|y})}d\boldsymbol{x} d\boldsymbol{y} \\
+&= H[\boldsymbol{x}] - H[\boldsymbol{x|y}]
+\end{align*}
+$$
 
-$p(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$
+Similarity, we derive
+$$
+I[\boldsymbol{x,y}] = H[\boldsymbol{y}] - H[\boldsymbol{y|x}]
+$$
+Hence,
+$$
+\mathbf{I[x,y]=H[x]-H[x|y]=H[y]-H[y|x]}
+$$
 
-Please derive its entropy $\mathbf{H[X]}$.
 
-*(b)* Write down the mutual information $\mathbf{I(y|x)}$. Then show the following equation
 
-$\mathbf{I[x,y]=H[x]-H[x|y]=H[y]-H[y|x]}$
+
+
+
+
+
+
+
 
