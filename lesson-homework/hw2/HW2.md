@@ -62,6 +62,10 @@ Is the final result symmetric and positive definite (provided the sample covaria
 >
 > $$\frac{\partial}{\partial \mathbf{A}} \mathrm{Tr}(\mathbf{A}) = \mathbf{I}, \quad \frac{\partial}{\partial \mathbf{A}} \mathrm{ln}|\mathbf{A}| = (\mathbf{A^{-1}})^\mathrm{T}.$$
 
+$$
+\frac{\partial}{\partial \mathbf{A}} \mathrm{Tr}(\mathbf{A}) = \mathbf{I}, \quad \frac{\partial}{\partial \mathbf{A}} \mathrm{ln}|\mathbf{A}| = (\mathbf{A^{-1}})^\mathrm{T}.
+$$
+
 
 
 ## Question 4

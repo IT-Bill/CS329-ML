@@ -1,0 +1,4 @@
+[submodule "CS329-ML-Project"]
+	path = CS329-ML-Project
+	url = https://github.com/IT-Bill/CS329-ML-Project.git
+	branch = main
